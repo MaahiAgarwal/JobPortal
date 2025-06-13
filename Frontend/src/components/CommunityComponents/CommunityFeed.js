@@ -13,115 +13,16 @@ import {
   Link,
   AlertCircle
 } from "lucide-react";
+import { 
+  INITIAL_POSTS, 
+  POSTS_PER_PAGE, 
+  DEFAULT_AVATAR, 
+  DEFAULT_USER_NAME 
+} from "../../constants/constants";
 
 const CommunityFeed = ({ isDarkMode, user }) => {
   // Post data state
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      user: "Aarav Sharma",
-      avatar: "https://randomuser.me/api/portraits/men/77.jpg",
-      content: "Just got an internship at Google! 🎉 Super excited to start my journey in tech! #FirstJob #Google #TechLife",
-      timestamp: "1 hour ago",
-      likes: 325,
-      comments: 42,
-      commentsList: [],
-      image: "https://miro.medium.com/v2/resize:fit:1100/format:webp/1*3L7BJpqvR6Z07rEAG7M9OA.png",
-    },
-    {
-      id: 2,
-      user: "Ishita Patel",
-      avatar: "https://randomuser.me/api/portraits/women/79.jpg",
-      content: "Looking for JavaScript resources. Any recommendations? Currently learning React and Node.js. #WebDev #JavaScript #LearningToCode",
-      timestamp: "3 hours ago",
-      likes: 169,
-      comments: 156,
-      commentsList: [],
-    },
-    {
-      id: 3,
-      user: "Rohan Gupta",
-      avatar: "https://randomuser.me/api/portraits/men/45.jpg",
-      content: "Excited to join this community! 🚀 Looking forward to connecting with fellow developers! #TechCommunity #Networking",
-      timestamp: "5 hours ago",
-      likes: 212,
-      comments: 33,
-      commentsList: [],
-    },
-    {
-      id: 4,
-      user: "Ananya Singh",
-      avatar: "https://randomuser.me/api/portraits/women/26.jpg",
-      content: "Just started learning Python. Any tips for beginners? Currently following the 100 Days of Code challenge! #Python #CodingJourney",
-      timestamp: "7 hours ago",
-      likes: 408,
-      comments: 256,
-      commentsList: [],
-    },
-    {
-      id: 5,
-      user: "Vikram Singh",
-      avatar: "https://randomuser.me/api/portraits/men/22.jpg",
-      content: "Sharing my journey into AI and Machine Learning. Check out my blog on Deep Learning fundamentals! #AI #ML #DeepLearning",
-      timestamp: "9 hours ago",
-      likes: 545,
-      comments: 120,
-      commentsList: [],
-      image: "https://www.springboard.com/blog/wp-content/uploads/2018/12/image2-4-1024x571.png",
-    },
-    {
-      id: 6,
-      user: "Neha Verma",
-      avatar: "https://randomuser.me/api/portraits/women/33.jpg",
-      content: "Just got my first job as a Web Developer! 🎉 Thanks to this amazing community for all the support! #WebDev #Success",
-      timestamp: "11 hours ago",
-      likes: 709,
-      comments: 145,
-      commentsList: [],
-    },
-    {
-      id: 7,
-      user: "Arjun Reddy",
-      avatar: "https://randomuser.me/api/portraits/men/55.jpg",
-      content: "Completed my AWS certification! Cloud computing is the future. Happy to help anyone starting their cloud journey. #AWS #Cloud",
-      timestamp: "12 hours ago",
-      likes: 433,
-      comments: 89,
-      commentsList: [],
-      image: "https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certification-Badge.4a8f0c22f0d9935362d0cdb6655cf9e4b4c39783.png",
-    },
-    {
-      id: 8,
-      user: "Priya Malhotra",
-      avatar: "https://randomuser.me/api/portraits/women/62.jpg",
-      content: "Hosting a free workshop on UI/UX design this weekend! DM for details. Let's learn together! #Design #Workshop #UX",
-      timestamp: "14 hours ago",
-      likes: 289,
-      comments: 94,
-      commentsList: [],
-    },
-    {
-      id: 9,
-      user: "Karan Shah",
-      avatar: "https://randomuser.me/api/portraits/men/41.jpg",
-      content: "Just launched my first mobile app! It's a meditation app with AI-powered personalization. #MobileApp #Startup",
-      timestamp: "16 hours ago",
-      likes: 512,
-      comments: 167,
-      commentsList: [],
-      image: "https://cdn.dribbble.com/users/2131993/screenshots/15628402/media/7bb0d27e44d8c2eff47276ae86bfd6a3.png?compress=1&resize=800x600",
-    },
-    {
-      id: 10,
-      user: "Meera Iyer",
-      avatar: "https://randomuser.me/api/portraits/women/71.jpg",
-      content: "Transitioning from marketing to data science. The journey is challenging but worth it! Any tips? #CareerChange #DataScience",
-      timestamp: "18 hours ago",
-      likes: 378,
-      comments: 142,
-      commentsList: [],
-    }
-  ]);
+  const [posts, setPosts] = useState(INITIAL_POSTS);
 
   // UI States
   const [activeCommentPostId, setActiveCommentPostId] = useState(null);
@@ -133,10 +34,10 @@ const CommunityFeed = ({ isDarkMode, user }) => {
   const [postImage, setPostImage] = useState(null);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 5;
+  const postsPerPage = POSTS_PER_PAGE;
   const totalPages = Math.ceil(posts.length / postsPerPage);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -199,8 +100,8 @@ const CommunityFeed = ({ isDarkMode, user }) => {
               commentsList: [
                 {
                   id: Date.now(),
-                  user: user.name || "Anonymous User",
-                  avatar: user.profileImage || "https://via.placeholder.com/40",
+                  user: user.name || DEFAULT_USER_NAME,
+                  avatar: user.profileImage || DEFAULT_AVATAR,
                   text: commentText,
                   timestamp: "Just now"
                 },
@@ -239,8 +140,8 @@ const CommunityFeed = ({ isDarkMode, user }) => {
     
     const newPost = {
       id: Date.now(),
-      user: user.name || "Anonymous User",
-      avatar: user.profileImage || "https://via.placeholder.com/40",
+      user: user.name || DEFAULT_USER_NAME,
+      avatar: user.profileImage || DEFAULT_AVATAR,
       content: newPostContent,
       timestamp: "Just now",
       likes: 0,

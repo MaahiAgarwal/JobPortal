@@ -1,29 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ThumbsUp, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const pollQuestions = [
-  {
-    id: 1,
-    question: "What's your favorite programming language?",
-    options: [
-      { id: 1, label: "JavaScript" },
-      { id: 2, label: "Python" },
-      { id: 3, label: "Java" },
-      { id: 4, label: "C++" },
-    ],
-  },
-  {
-    id: 2,
-    question: "Which frontend framework do you prefer?",
-    options: [
-      { id: 1, label: "React" },
-      { id: 2, label: "Vue" },
-      { id: 3, label: "Angular" },
-      { id: 4, label: "Svelte" },
-    ],
-  },
-];
+import { pollQuestions } from "../../constants/constants";
 
 const PollsQA = ({ isDarkMode }) => {
   const [votesData, setVotesData] = useState({});

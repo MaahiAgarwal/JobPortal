@@ -1,27 +1,7 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Pin, CalendarClock, Users } from "lucide-react";
-
-const pinnedPosts = [
-  {
-    id: 1,
-    title: "Community Meetup",
-    details: "Next Saturday at 6 PM",
-    timestamp: "Apr 13, 2025",
-  },
-  {
-    id: 2,
-    title: "AMA with Google Engineers",
-    details: "Monday, 8 PM IST on Zoom",
-    timestamp: "Apr 15, 2025",
-  },
-  {
-    id: 3,
-    title: "Open Source Sprint",
-    details: "Join us this weekend on GitHub",
-    timestamp: "Apr 20, 2025",
-  },
-];
+import {pinnedPosts} from "../../constants/constants";
 
 const PinnedPosts = ({ isDarkMode }) => {
   const [expanded, setExpanded] = useState(false);

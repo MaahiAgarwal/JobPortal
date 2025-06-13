@@ -213,7 +213,7 @@ const ApplyJob = ({ isDarkMode, user }) => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Full Name */}
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                                    <label className="text-sm font-medium mb-2 flex items-center gap-2">
                                         <User size={16} />
                                         Full Name
                                     </label>
@@ -236,7 +236,7 @@ const ApplyJob = ({ isDarkMode, user }) => {
 
                                 {/* Email */}
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                                    <label className="text-sm font-medium mb-2 flex items-center gap-2">
                                         <Mail size={16} />
                                         Email
                                     </label>
@@ -259,7 +259,7 @@ const ApplyJob = ({ isDarkMode, user }) => {
 
                                 {/* Phone */}
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                                    <label className="text-sm font-medium mb-2 flex items-center gap-2">
                                         <Phone size={16} />
                                         Phone
                                     </label>
@@ -282,7 +282,7 @@ const ApplyJob = ({ isDarkMode, user }) => {
 
                                 {/* Resume Upload */}
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                                    <label className="text-sm font-medium mb-2 flex items-center gap-2">
                                         <Upload size={16} />
                                         Resume (PDF)
                                     </label>

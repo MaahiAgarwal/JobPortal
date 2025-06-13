@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { companies } from "../../constants/constants";
 
 const FeaturedCompanies = ({ isDarkMode = false }) => {
-  const companies = [
-    { name: "Infosys", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Infosys_logo.svg/1200px-Infosys_logo.svg.png", description: "Leading technology company" },
-    { name: "Accenture", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Accenture.svg/1200px-Accenture.svg.png", description: "Global professional services company" },
-    { name: "Amazon", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1200px-Amazon_logo.svg.png", description: "E-commerce and cloud computing company" },
-    { name: "Google", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png", description: "Multinational technology company" },
-    { name: "Microsoft", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1200px-Microsoft_logo.svg.png", description: "Multinational technology company" },
-    { name: "Apple", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1200px-Apple_logo_black.svg.png", description: "Multinational technology company" },
-    { name: "IBM", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/1200px-IBM_logo.svg.png", description: "Multinational technology company" },
-    { name: "Wipro", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Wipro_Primary_Logo_Color_RGB.svg/1200px-Wipro_Primary_Logo_Color_RGB.svg.png", description: "Indian multinational corporation" },
-  ];
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [itemsToShow, setItemsToShow] = useState(4);

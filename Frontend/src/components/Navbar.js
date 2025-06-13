@@ -27,6 +27,11 @@ import {
     Trash2,
     MapPin
 } from "lucide-react";
+import {
+  jobTitles,
+  cities,
+  sampleNotifications
+} from "../constants/constants";
 
 const Navbar = ({ isDarkMode, toggleTheme, user, logout }) => {
     const navigate = useNavigate();
@@ -36,60 +41,7 @@ const Navbar = ({ isDarkMode, toggleTheme, user, logout }) => {
     const [showNotifications, setShowNotifications] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [showSearchResults, setShowSearchResults] = useState(false);
-    const [notifications, setNotifications] = useState([
-        {
-            id: 1,
-            message: "New job matching your profile!",
-            time: "2 hours ago",
-            read: false,
-            type: "job"
-        },
-        {
-            id: 2,
-            message: "Your application was viewed by Google",
-            time: "1 day ago",
-            read: false,
-            type: "application"
-        },
-        {
-            id: 3,
-            message: "Interview scheduled with Microsoft",
-            time: "2 days ago",
-            read: true,
-            type: "interview"
-        }
-    ]);
-
-    // Sample job data - replace with your actual job data
-    const jobTitles = [
-        'Software Engineer',
-        'Data Scientist',
-        'Product Manager',
-        'UI/UX Designer',
-        'Full Stack Developer',
-        'Backend Engineer',
-        'ML Engineer',
-        'Frontend Engineer',
-        'Java Developer',
-        'Mechanical Engineer',
-        'Electrical Engineer',
-        'Marketing Manager',
-    ];
-
-    const cities = [
-        'New York',
-        'Los Angeles',
-        'Denver',
-        'Kolkata',
-        'Barrackpore',
-        'Bangalore',
-        'Delhi',
-        'Mumbai',
-        'Chennai',
-        'San Franciso',
-        'Pune',
-    ];
-
+    const [notifications, setNotifications] = useState(sampleNotifications);
     const [filteredResults, setFilteredResults] = useState([]);
 
     const handleSearchChange = (e) => {

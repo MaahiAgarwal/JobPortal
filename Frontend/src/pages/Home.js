@@ -11,6 +11,14 @@ import FAQ from '../components/MainPageComponents/FAQ';
 import WhyChooseUs from '../components/MainPageComponents/WhyChooseUs';
 import PopularCategories from '../components/MainPageComponents/PopularCategories';
 import CallToAction from '../components/MainPageComponents/CallToAction';
+import {
+  jobTitles,
+  cities,
+  getFeatures,
+  testimonials,
+  categories,
+  faqs
+} from '../constants/constants'; 
 
 const Home = ({ isDarkMode, user }) => {
   const [jobTitle, setJobTitle] = useState('');
@@ -29,105 +37,7 @@ const Home = ({ isDarkMode, user }) => {
     visible: { opacity: 1, y: 0 }
   };
 
-  const faqs = [
-    {
-      question: 'How do I create a HireMe account?',
-      answer: 'Creating an account is easy! Click on the "Sign Up" button on the homepage and fill in your details.',
-    },
-    {
-      question: 'Is HireMe free to use?',
-      answer: 'Yes, HireMe is completely free for job seekers.',
-    },
-    {
-      question: 'How can I apply for jobs?',
-      answer: 'Once you find a job listing that matches your skills, click on the "Apply Now" button and follow the instructions.',
-    },
-    {
-      question: 'Can I connect directly with employers?',
-      answer: 'Yes, our platform allows you to connect and network with employers.',
-    },
-    {
-      question: 'How do I search for jobs by location?',
-      answer: 'Use the search bar to enter your desired location and find jobs nearby.',
-    },
-  ];
-
-  const jobTitles = [
-    'Software Engineer',
-    'Data Scientist',
-    'Product Manager',
-    'UI/UX Designer',
-    'Full Stack Developer',
-    'Backend Engineer',
-    'ML Engineer',
-    'Frontend Engineer',
-    'Java Developer',
-    'Mechanical Engineer',
-    'Electrical Engineer',
-    'Marketing Manager',
-  ];
-
-  const cities = [
-    'New York',
-    'Los Angeles',
-    'Denver',
-    'Kolkata',
-    'Barrackpore',
-    'Bangalore',
-    'Delhi',
-    'Mumbai',
-    'Chennai',
-    'San Franciso',
-    'Pune',
-  ];
-
-  const features = [
-    {
-      icon: <Briefcase className={`${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />,
-      title: 'Thousands of Jobs',
-      description: 'Access thousands of job listings from top companies across industries.',
-    },
-    {
-      icon: <Users className={`${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />,
-      title: 'Expert Network',
-      description: 'Connect with industry professionals and grow your network.',
-    },
-    {
-      icon: <TrendingUp className={`${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />,
-      title: 'Career Growth',
-      description: 'Get insights and resources to advance your career.',
-    },
-  ];
-
-  const testimonials = [
-    {
-      feedback: "HireMe has been an amazing platform to find the best job opportunities!",
-      name: "Arjun Sharma",
-      job: "Software Engineer",
-    },
-    {
-      feedback: "I found my dream job through HireMe. Highly recommend it!",
-      name: "Priya Patel",
-      job: "Data Scientist",
-    },
-    {
-      feedback: "HireMe made my job search so much easier! A great platform to connect with employers.",
-      name: "Ravi Kumar",
-      job: "Mechanical Engineer",
-    },
-    {
-      feedback: "Thanks to HireMe, I was able to land an amazing job in just a few weeks!",
-      name: "Anjali Reddy",
-      job: "Digital Marketer",
-    },
-    {
-      feedback: "The platform is easy to use and helped me find a job that fits my skills perfectly.",
-      name: "Vikram Singh",
-      job: "Web Developer",
-    },
-  ];
-
-  const categories = ['Technology', 'Finance', 'Healthcare', 'Marketing', 'Education', 'Design'];
+  const features = getFeatures(isDarkMode);
 
   useEffect(() => {
     AOS.init({

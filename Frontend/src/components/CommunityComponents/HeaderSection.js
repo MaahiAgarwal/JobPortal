@@ -2,13 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
-const headlines = [
-  "Find Your Dream Job Here",
-  "Empowering Careers, Connecting Talent",
-  "Remote, Onsite, Hybrid — We’ve Got You",
-  "Job Seekers & Employers — Join Us Today!",
-];
+import { headlines } from "../../constants/constants";
 
 const HeaderSection = ({ isDarkMode }) => {
   const [text, setText] = useState("");
@@ -68,20 +62,22 @@ const HeaderSection = ({ isDarkMode }) => {
       data-aos="zoom-in"
     >
       <motion.h1
-        className={`text-3xl sm:text-5xl font-bold tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r ${
+        className={`text-3xl sm:text-5xl font-extrabold tracking-tight mb-2 ${
           isDarkMode
-            ? "from-yellow-400 via-pink-500 to-orange-500"
-            : "from-blue-700 via-purple-500 to-indigo-600"
+            ? "text-amber-300"
+            : "text-indigo-700"
         }`}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
         {text}
-        <span className="animate-blink ml-1">|</span>
+        <span className="animate-blink ml-1 text-violet-500">|</span>
       </motion.h1>
 
-      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-md">
+      <p className={`text-sm sm:text-base font-medium mt-2 max-w-md tracking-wide ${
+        isDarkMode ? 'text-gray-300' : 'text-gray-700'
+      }`}>
         Your all-in-one platform for jobs, hiring, and connections.
       </p>
     </section>
