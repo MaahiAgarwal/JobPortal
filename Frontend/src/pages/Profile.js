@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUser, getEmployer } from '../ConfigAPI';
 import { UserCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { 
   ProfileHeader, 
   ProfileCard, 
@@ -65,9 +66,11 @@ const Profile = ({ isDarkMode, userType }) => {
           <p className={`${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'} mb-6`}>
             Please log in to view your profile and manage your jobs.
           </p>
-          <button className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-            Sign In
-          </button>
+          <Link to="/signin">
+            <button className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+              Sign In
+            </button>
+          </Link>
         </div>
       </div>
     );

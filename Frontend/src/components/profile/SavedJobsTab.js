@@ -1,4 +1,5 @@
 import { Bookmark, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const SavedJobsTab = ({ isDarkMode }) => {
   return (
@@ -12,9 +13,11 @@ export const SavedJobsTab = ({ isDarkMode }) => {
       <p className={`text-sm mb-6 ${isDarkMode ? 'text-zinc-500' : 'text-zinc-600'}`}>
         Your saved jobs will appear here for quick access
       </p>
-      <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-        Browse Jobs
-      </button>
+      <Link to="/all-jobs">
+              <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                Browse Jobs
+              </button>
+      </Link>
     </div>
   );
 };

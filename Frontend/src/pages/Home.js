@@ -437,7 +437,7 @@ const Home = ({ isDarkMode, user }) => {
       <FAQ faqs={faqs} isDarkMode={isDarkMode} />
 
       {/* Call to Action Section */}
-      <CallToAction isDarkMode={isDarkMode} />
+      <CallToAction isDarkMode={isDarkMode} user={user} />
     </div>
   );
 };

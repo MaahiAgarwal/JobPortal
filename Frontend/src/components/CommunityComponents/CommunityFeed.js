@@ -11,7 +11,10 @@ import {
   Image,
   Video,
   Link,
-  AlertCircle
+  AlertCircle,
+  User,
+  Clock,
+  Heart
 } from "lucide-react";
 import { 
   INITIAL_POSTS, 
@@ -23,11 +26,8 @@ import {
 const CommunityFeed = ({ isDarkMode, user }) => {
   // Post data state
   const [posts, setPosts] = useState(INITIAL_POSTS);
-
-  // UI States
   const [activeCommentPostId, setActiveCommentPostId] = useState(null);
   const [commentText, setCommentText] = useState("");
-  const [expandedPosts, setExpandedPosts] = useState([]);
   const [newPostContent, setNewPostContent] = useState("");
   const [showNewPostForm, setShowNewPostForm] = useState(false);
   const [likedPostIds, setLikedPostIds] = useState([]);
@@ -35,15 +35,60 @@ const CommunityFeed = ({ isDarkMode, user }) => {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   
-  // Pagination state
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = POSTS_PER_PAGE;
   const totalPages = Math.ceil(posts.length / postsPerPage);
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = posts.slice(
+    (currentPage - 1) * postsPerPage,
+    currentPage * postsPerPage
+  );
 
-  // Event handlers
+  // Handler functions
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPostImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCreatePost = () => {
+    if (!user) {
+      setErrorMessage("Please sign in to create a post");
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+      return;
+    }
+
+    if (!newPostContent.trim()) {
+      setErrorMessage("Post content cannot be empty");
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+      return;
+    }
+    
+    const newPost = {
+      id: Date.now(),
+      user: user.name || DEFAULT_USER_NAME,
+      avatar: user.profileImage || DEFAULT_AVATAR,
+      content: newPostContent,
+      timestamp: "Just now",
+      likes: 0,
+      comments: 0,
+      commentsList: [],
+      image: postImage
+    };
+
+    setPosts(prevPosts => [newPost, ...prevPosts]);
+    setNewPostContent("");
+    setPostImage(null);
+    setShowNewPostForm(false);
+  };
+
   const handleLikeClick = (postId) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -63,18 +108,6 @@ const CommunityFeed = ({ isDarkMode, user }) => {
         ? prevLikedPostIds.filter((id) => id !== postId)
         : [...prevLikedPostIds, postId]
     );
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
   };
 
   const toggleComments = (postId) => {
@@ -115,127 +148,95 @@ const CommunityFeed = ({ isDarkMode, user }) => {
     setCommentText("");
   };
 
-  const togglePostExpand = (postId) => {
-    setExpandedPosts(prev =>
-      prev.includes(postId)
-        ? prev.filter(id => id !== postId)
-        : [...prev, postId]
-    );
-  };
-
-  const handleCreatePost = () => {
-    if (!user) {
-      setErrorMessage("Please sign in to create a post");
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
-      return;
-    }
-
-    if (!newPostContent.trim()) {
-      setErrorMessage("Post content cannot be empty");
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
-      return;
-    }
-    
-    const newPost = {
-      id: Date.now(),
-      user: user.name || DEFAULT_USER_NAME,
-      avatar: user.profileImage || DEFAULT_AVATAR,
-      content: newPostContent,
-      timestamp: "Just now",
-      likes: 0,
-      comments: 0,
-      commentsList: [],
-      image: postImage
-    };
-
-    console.log("Creating post with user data:", user);
-    console.log("User profile image:", user.profileImage);
-
-    setPosts(prevPosts => [newPost, ...prevPosts]);
-    setNewPostContent("");
-    setPostImage(null);
-    setShowNewPostForm(false);
-  };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPostImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   return (
-    <div className={`rounded-xl shadow-lg overflow-hidden ${isDarkMode ? "bg-zinc-800" : "bg-white"}`}>
+    <div className={`rounded-2xl ${isDarkMode ? "bg-zinc-800" : "bg-white"} shadow-lg overflow-hidden w-full max-w-4xl mx-auto`}>
       {/* Error Message */}
       {showError && (
-        <div className={`p-4 mb-4 rounded-lg text-white bg-red-500 flex items-center gap-2`}>
-          <AlertCircle size={20} />
-          <span>{errorMessage}</span>
+        <div className={`p-4 mb-4 flex items-center gap-3 ${isDarkMode ? "bg-red-900/50" : "bg-red-100"} text-red-500 rounded-lg mx-4 mt-4`}>
+          <AlertCircle size={20} className="flex-shrink-0" />
+          <span className="font-medium">{errorMessage}</span>
         </div>
       )}
 
       {/* Header */}
-      <div className={`p-4 border-b ${isDarkMode ? "border-zinc-700" : "border-zinc-200"}`}>
-        <h2 className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-zinc-900"}`}>
+      <div className={`p-4 md:p-6 ${isDarkMode ? "border-zinc-700" : "border-zinc-200"} border-b`}>
+        <h2 className={`text-xl md:text-2xl font-bold ${isDarkMode ? "text-white" : "text-zinc-900"} mb-1`}>
           Community Feed
         </h2>
+        <p className={`text-xs md:text-sm ${isDarkMode ? "text-zinc-400" : "text-zinc-500"}`}>
+          Connect with other professionals in your field
+        </p>
       </div>
 
       {/* Create Post */}
-      <div className={`p-4 border-b ${isDarkMode ? "border-zinc-700" : "border-zinc-200"}`}>
+      <div className={`p-3 md:p-4 ${isDarkMode ? "border-zinc-700" : "border-zinc-200"} border-b`}>
         {!showNewPostForm ? (
           <div
             onClick={() => setShowNewPostForm(true)}
-            className={`p-3 rounded-lg cursor-pointer ${
+            className={`p-2 md:p-3 rounded-xl cursor-pointer transition-all flex items-center gap-3 ${
               isDarkMode
                 ? "bg-zinc-700 hover:bg-zinc-600 text-zinc-300"
-                : "bg-zinc-100 hover:bg-zinc-200 text-zinc-600"
+                : "bg-zinc-50 hover:bg-zinc-100 text-zinc-600"
             }`}
           >
-            <span>What's on your mind?</span>
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden bg-zinc-200 flex items-center justify-center">
+              {user?.profileImage ? (
+                <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                <User className="w-4 h-4 md:w-5 md:h-5 text-zinc-500" />
+              )}
+            </div>
+            <span className="text-xs md:text-sm font-medium">What's on your mind?</span>
           </div>
         ) : (
-          <div className={`p-4 rounded-lg ${isDarkMode ? "bg-zinc-700" : "bg-zinc-100"}`}>
-            <textarea
-              value={newPostContent}
-              onChange={(e) => setNewPostContent(e.target.value)}
-              placeholder="Share your thoughts, questions, or insights..."
-              className={`w-full p-3 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                isDarkMode ? "bg-zinc-800 text-white" : "bg-white text-zinc-800"
-              }`}
-              rows={4}
-            ></textarea>
+          <div className={`p-3 md:p-4 rounded-xl ${isDarkMode ? "bg-zinc-700" : "bg-zinc-50"} transition-all`}>
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden bg-zinc-200 flex items-center justify-center">
+                {user?.profileImage ? (
+                  <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <User className="w-4 h-4 md:w-5 md:h-5 text-zinc-500" />
+                )}
+              </div>
+              <textarea
+                value={newPostContent}
+                onChange={(e) => setNewPostContent(e.target.value)}
+                placeholder="Share your thoughts, questions, or insights..."
+                className={`flex-1 p-2 md:p-3 rounded-lg resize-none focus:outline-none focus:ring-2 transition-all text-sm md:text-base ${
+                  isDarkMode 
+                    ? "bg-zinc-800 text-white focus:ring-indigo-500" 
+                    : "bg-white text-zinc-800 focus:ring-indigo-400 shadow-sm"
+                }`}
+                rows={3}
+              ></textarea>
+            </div>
             
             {postImage && (
-              <div className="mt-3 relative">
+              <div className="mb-4 relative rounded-xl overflow-hidden">
                 <img 
                   src={postImage} 
                   alt="Post preview" 
-                  className="max-h-40 rounded-lg object-cover"
+                  className="w-full h-40 sm:h-48 md:h-64 object-cover"
                 />
                 <button 
                   onClick={() => setPostImage(null)}
-                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
+                  className={`absolute top-2 right-2 md:top-3 md:right-3 p-1 md:p-1.5 rounded-full ${
+                    isDarkMode ? "bg-zinc-800/90 hover:bg-zinc-700" : "bg-white/90 hover:bg-zinc-100"
+                  } shadow-md text-xs md:text-base`}
                 >
                   ✕
                 </button>
               </div>
             )}
             
-            <div className="flex items-center justify-between mt-3">
-              <div className="flex gap-2">
-                <label className={`p-2 rounded-lg cursor-pointer ${
+            <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+              <div className="flex gap-1 md:gap-2 w-full md:w-auto justify-between">
+                <label className={`p-1 md:p-2 rounded-lg cursor-pointer transition-colors ${
                   isDarkMode
                     ? "hover:bg-zinc-600 text-indigo-400"
                     : "hover:bg-zinc-200 text-indigo-500"
                 }`}>
-                  <Image className="w-5 h-5" />
+                  <Image className="w-4 h-4 md:w-5 md:h-5" />
                   <input 
                     type="file" 
                     accept="image/*" 
@@ -243,39 +244,39 @@ const CommunityFeed = ({ isDarkMode, user }) => {
                     onChange={handleImageUpload}
                   />
                 </label>
-                <button className={`p-2 rounded-lg ${
+                <button className={`p-1 md:p-2 rounded-lg transition-colors ${
                   isDarkMode
                     ? "hover:bg-zinc-600 text-indigo-400"
                     : "hover:bg-zinc-200 text-indigo-500"
                 }`}>
-                  <Video className="w-5 h-5" />
+                  <Video className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
-                <button className={`p-2 rounded-lg ${
+                <button className={`p-1 md:p-2 rounded-lg transition-colors ${
                   isDarkMode
                     ? "hover:bg-zinc-600 text-indigo-400"
                     : "hover:bg-zinc-200 text-indigo-500"
                 }`}>
-                  <Link className="w-5 h-5" />
+                  <Link className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 w-full md:w-auto justify-end">
                 <button
                   onClick={() => setShowNewPostForm(false)}
-                  className={`px-3 py-1 rounded-lg ${
+                  className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg font-medium text-sm md:text-base transition-colors ${
                     isDarkMode
                       ? "bg-zinc-600 hover:bg-zinc-500 text-white"
-                      : "bg-zinc-300 hover:bg-zinc-400 text-zinc-800"
+                      : "bg-zinc-200 hover:bg-zinc-300 text-zinc-800"
                   }`}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleCreatePost}
-                  className={`px-3 py-1 rounded-lg ${
+                  className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg font-medium text-sm md:text-base transition-colors ${
                     isDarkMode
-                      ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                      ? "bg-indigo-600 hover:bg-indigo-500 text-white"
                       : "bg-indigo-500 hover:bg-indigo-600 text-white"
-                  }`}
+                  } shadow-md`}
                 >
                   Post
                 </button>
@@ -286,103 +287,133 @@ const CommunityFeed = ({ isDarkMode, user }) => {
       </div>
 
       {/* Posts List */}
-      <div className="space-y-4 sm:space-y-6">
+      <div className="divide-y divide-zinc-200 dark:divide-zinc-700">
         {currentPosts.map((post) => (
           <div
             key={post.id}
-            className={`p-4 rounded-lg ${isDarkMode ? "bg-zinc-800" : "bg-white shadow-md"}`}
+            className={`p-3 md:p-4 lg:p-6 transition-all hover:${isDarkMode ? "bg-zinc-750" : "bg-zinc-50"}`}
           >
-            <div className="flex items-start gap-3">
-              <img
-                src={post.avatar}
-                alt={post.user}
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
-              />
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                  <h3 className={`font-medium ${isDarkMode ? "text-white" : "text-zinc-900"}`}>
-                    {post.user}
-                  </h3>
-                  <span className={`text-sm ${isDarkMode ? "text-zinc-400" : "text-zinc-500"}`}>
-                    {post.timestamp}
-                  </span>
+            <div className="flex items-start gap-3 md:gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-zinc-200 flex items-center justify-center">
+                  {post.avatar ? (
+                    <img src={post.avatar} alt={post.user} className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-5 h-5 md:w-6 md:h-6 text-zinc-500" />
+                  )}
                 </div>
-                <p className={`mt-2 text-sm sm:text-base break-words ${isDarkMode ? "text-zinc-300" : "text-zinc-600"}`}>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className={`font-semibold text-sm md:text-base ${isDarkMode ? "text-white" : "text-zinc-900"}`}>
+                      {post.user}
+                    </h3>
+                    <div className="flex items-center gap-1 md:gap-2 mt-1">
+                      <Clock className={`w-3 h-3 ${isDarkMode ? "text-zinc-500" : "text-zinc-400"}`} />
+                      <span className={`text-xs ${isDarkMode ? "text-zinc-400" : "text-zinc-500"}`}>
+                        {post.timestamp}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    className={`p-1 rounded-full hover:${isDarkMode ? "bg-zinc-700" : "bg-zinc-100"} transition-colors`}
+                  >
+                    <MoreHorizontal className={`w-4 h-4 md:w-5 md:h-5 ${isDarkMode ? "text-zinc-400" : "text-zinc-500"}`} />
+                  </button>
+                </div>
+                
+                <p className={`mt-2 md:mt-3 text-xs md:text-sm lg:text-base ${isDarkMode ? "text-zinc-300" : "text-zinc-700"}`}>
                   {post.content}
                 </p>
+                
                 {post.image && (
-                  <div className="mt-3 rounded-lg overflow-hidden">
-                    <img src={post.image} alt="" className="w-full h-auto" />
+                  <div className="mt-3 md:mt-4 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-700">
+                    <img src={post.image} alt="" className="w-full h-auto max-h-64 md:max-h-80 lg:max-h-96 object-cover" />
                   </div>
                 )}
-                <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
+                
+                <div className="mt-3 md:mt-4 flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <div className="flex items-center -space-x-2">
+                      <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-indigo-500 flex items-center justify-center">
+                        <Heart className="w-2.5 h-2.5 md:w-3 md:h-3 text-white fill-white" />
+                      </div>
+                    </div>
+                    <span className={`text-xs md:text-sm ${isDarkMode ? "text-zinc-400" : "text-zinc-500"}`}>
+                      {post.likes} likes
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <span className={`text-xs md:text-sm ${isDarkMode ? "text-zinc-400" : "text-zinc-500"}`}>
+                      {post.comments} comments
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="mt-2 md:mt-3 pt-2 md:pt-3 border-t border-zinc-200 dark:border-zinc-700 flex items-center justify-between">
                   <button
                     onClick={() => handleLikeClick(post.id)}
-                    className={`flex items-center gap-1 ${
-                      isDarkMode ? "text-zinc-400 hover:text-indigo-400" : "text-zinc-500 hover:text-indigo-500"
+                    className={`flex-1 flex items-center justify-center gap-1 md:gap-2 py-1 md:py-2 rounded-lg transition-colors text-xs md:text-sm ${
+                      likedPostIds.includes(post.id)
+                        ? "text-indigo-500"
+                        : isDarkMode
+                          ? "text-zinc-400 hover:bg-zinc-700"
+                          : "text-zinc-500 hover:bg-zinc-100"
                     }`}
                   >
-                    <ThumbsUp className={`w-4 h-4 ${likedPostIds.includes(post.id) ? "fill-current text-indigo-500" : ""}`} />
-                    <span>{post.likes}</span>
+                    <ThumbsUp className={`w-4 h-4 md:w-5 md:h-5 ${likedPostIds.includes(post.id) ? "fill-current" : ""}`} />
+                    <span className="font-medium">Like</span>
                   </button>
                   <button
                     onClick={() => toggleComments(post.id)}
-                    className={`flex items-center gap-1 ${
-                      isDarkMode ? "text-zinc-400 hover:text-indigo-400" : "text-zinc-500 hover:text-indigo-500"
+                    className={`flex-1 flex items-center justify-center gap-1 md:gap-2 py-1 md:py-2 rounded-lg transition-colors text-xs md:text-sm ${
+                      isDarkMode
+                        ? "text-zinc-400 hover:bg-zinc-700"
+                        : "text-zinc-500 hover:bg-zinc-100"
                     }`}
                   >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>{post.comments}</span>
+                    <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="font-medium">Comment</span>
                   </button>
                   <button
-                    className={`flex items-center gap-1 ${
-                      isDarkMode ? "text-zinc-400 hover:text-indigo-400" : "text-zinc-500 hover:text-indigo-500"
+                    className={`flex-1 flex items-center justify-center gap-1 md:gap-2 py-1 md:py-2 rounded-lg transition-colors text-xs md:text-sm ${
+                      isDarkMode
+                        ? "text-zinc-400 hover:bg-zinc-700"
+                        : "text-zinc-500 hover:bg-zinc-100"
                     }`}
                   >
-                    <Share className="w-4 h-4" />
-                    <span>Share</span>
-                  </button>
-                  <button
-                    className={`flex items-center gap-1 ${
-                      isDarkMode ? "text-zinc-400 hover:text-indigo-400" : "text-zinc-500 hover:text-indigo-500"
-                    }`}
-                  >
-                    <Bookmark className="w-4 h-4" />
-                    <span>Save</span>
+                    <Share className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="font-medium">Share</span>
                   </button>
                 </div>
               </div>
-              <button
-                className={`p-1 rounded-full ${
-                  isDarkMode ? "hover:bg-zinc-700 text-zinc-400" : "hover:bg-zinc-100 text-zinc-500"
-                }`}
-              >
-                <MoreHorizontal className="w-5 h-5" />
-              </button>
             </div>
 
             {/* Comments Section */}
             {activeCommentPostId === post.id && (
-              <div className="mt-4 pl-12 sm:pl-14">
-                <div className="space-y-3">
+              <div className="mt-3 md:mt-4 pl-10 md:pl-14 lg:pl-16">
+                <div className="space-y-2 md:space-y-3">
                   {post.commentsList.map((comment, index) => (
-                    <div key={index} className={`p-3 rounded-lg ${isDarkMode ? "bg-zinc-700" : "bg-zinc-50"}`}>
-                      <div className="flex items-start gap-2">
-                        <img
-                          src={comment.avatar}
-                          alt={comment.user}
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
+                    <div key={index} className={`p-2 md:p-3 rounded-xl ${isDarkMode ? "bg-zinc-700" : "bg-zinc-50"}`}>
+                      <div className="flex items-start gap-2 md:gap-3">
+                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full overflow-hidden bg-zinc-200 flex items-center justify-center">
+                          {comment.avatar ? (
+                            <img src={comment.avatar} alt={comment.user} className="w-full h-full object-cover" />
+                          ) : (
+                            <User className="w-3 h-3 md:w-4 md:h-4 text-zinc-500" />
+                          )}
+                        </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className={`font-medium ${isDarkMode ? "text-white" : "text-zinc-900"}`}>
+                          <div className="flex items-center gap-1 md:gap-2">
+                            <span className={`font-medium text-xs md:text-sm ${isDarkMode ? "text-white" : "text-zinc-900"}`}>
                               {comment.user}
                             </span>
                             <span className={`text-xs ${isDarkMode ? "text-zinc-400" : "text-zinc-500"}`}>
                               {comment.timestamp}
                             </span>
                           </div>
-                          <p className={`mt-1 text-sm break-words ${isDarkMode ? "text-zinc-300" : "text-zinc-600"}`}>
+                          <p className={`mt-1 text-xs md:text-sm ${isDarkMode ? "text-zinc-300" : "text-zinc-600"}`}>
                             {comment.text}
                           </p>
                         </div>
@@ -390,25 +421,28 @@ const CommunityFeed = ({ isDarkMode, user }) => {
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 flex gap-2">
+                <div className="mt-2 md:mt-3 flex gap-1 md:gap-2">
                   <input
                     type="text"
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                     placeholder="Write a comment..."
-                    className={`flex-1 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                      isDarkMode ? "bg-zinc-700 text-white" : "bg-zinc-100 text-zinc-800"
+                    className={`flex-1 px-3 py-1.5 md:px-4 md:py-2 rounded-full focus:outline-none focus:ring-2 transition-all text-xs md:text-sm ${
+                      isDarkMode 
+                        ? "bg-zinc-700 text-white focus:ring-indigo-500" 
+                        : "bg-zinc-100 text-zinc-800 focus:ring-indigo-400"
                     }`}
+                    onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
                   />
                   <button
                     onClick={() => handleAddComment(post.id)}
-                    className={`p-2 rounded-lg ${
+                    className={`p-1.5 md:p-2 rounded-full ${
                       isDarkMode
-                        ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                        ? "bg-indigo-600 hover:bg-indigo-500 text-white"
                         : "bg-indigo-500 hover:bg-indigo-600 text-white"
-                    }`}
+                    } transition-colors`}
                   >
-                    <Send className="w-4 h-4" />
+                    <Send className="w-3 h-3 md:w-4 md:h-4" />
                   </button>
                 </div>
               </div>
@@ -418,35 +452,37 @@ const CommunityFeed = ({ isDarkMode, user }) => {
       </div>
 
       {/* Pagination */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 sm:mt-8">
-        <div className="text-sm text-center sm:text-left w-full sm:w-auto">
-          Showing {currentPage * postsPerPage - 4}-{Math.min(currentPage * postsPerPage, posts.length)} of {posts.length} posts
+      <div className={`p-3 md:p-4 lg:p-6 flex flex-col sm:flex-row justify-between items-center gap-3 ${
+        isDarkMode ? "border-t border-zinc-700" : "border-t border-zinc-200"
+      }`}>
+        <div className={`text-xs md:text-sm ${isDarkMode ? "text-zinc-400" : "text-zinc-500"}`}>
+          Showing {currentPage * postsPerPage - postsPerPage + 1}-{Math.min(currentPage * postsPerPage, posts.length)} of {posts.length} posts
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 md:gap-2">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`p-2 rounded-lg ${
+            className={`p-1.5 md:p-2 rounded-lg transition-colors ${
               isDarkMode
-                ? "bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-800 disabled:opacity-50"
-                : "bg-white hover:bg-zinc-50 disabled:bg-white disabled:opacity-50 shadow-sm"
+                ? "bg-zinc-700 hover:bg-zinc-600 disabled:bg-zinc-800 disabled:opacity-50"
+                : "bg-white hover:bg-zinc-100 disabled:bg-zinc-100 disabled:opacity-50 shadow-sm"
             }`}
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
           </button>
-          <span className={`text-sm ${isDarkMode ? "text-zinc-300" : "text-zinc-600"}`}>
+          <span className={`text-xs md:text-sm font-medium ${isDarkMode ? "text-zinc-300" : "text-zinc-600"}`}>
             Page {currentPage} of {totalPages}
           </span>
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className={`p-2 rounded-lg ${
+            className={`p-1.5 md:p-2 rounded-lg transition-colors ${
               isDarkMode
-                ? "bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-800 disabled:opacity-50"
-                : "bg-white hover:bg-zinc-50 disabled:bg-white disabled:opacity-50 shadow-sm"
+                ? "bg-zinc-700 hover:bg-zinc-600 disabled:bg-zinc-800 disabled:opacity-50"
+                : "bg-white hover:bg-zinc-100 disabled:bg-zinc-100 disabled:opacity-50 shadow-sm"
             }`}
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
           </button>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { Briefcase, Plus } from 'lucide-react';
 import { JobCard } from './JobCard';
+import { Link } from 'react-router-dom';
 
 export const ApplicationsTab = ({ appliedJobs, isDarkMode, userType }) => {
   return (
@@ -9,10 +10,13 @@ export const ApplicationsTab = ({ appliedJobs, isDarkMode, userType }) => {
           {userType === "user" ? "Your Applications" : "Your Job Posts"}
         </h3>
         {userType === "employer" && (
-          <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-            <Plus size={18} />
-            Post New Job
-          </button>
+          <Link to="/job-posting-page">
+            <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+              <Plus size={18} />
+              Post New Job
+            </button>
+          </Link>
+
         )}
       </div>
 
@@ -36,9 +40,19 @@ export const ApplicationsTab = ({ appliedJobs, isDarkMode, userType }) => {
               : "Create your first job posting to attract candidates"
             }
           </p>
-          <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-            {userType === "user" ? "Browse Jobs" : "Post a Job"}
-          </button>
+          {
+            userType === "user" ?
+                  <Link to="/all-jobs">
+                    <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                      Browse Jobs 
+                    </button>
+                  </Link> :
+                  <Link to="/job-posting-page">
+                    <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                      Post a Job
+                    </button>
+                  </Link>
+          }
         </div>
       )}
     </>

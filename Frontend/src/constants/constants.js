@@ -255,60 +255,6 @@ export const DEFAULT_AVATAR = "https://via.placeholder.com/40";
 export const DEFAULT_USER_NAME = "Anonymous User";
 
 
-// components/CommunityComponents/HeaderSection.js 
-export const headlines = [
-  "Find Your Dream Job Here",
-  "Empowering Careers, Connecting Talent",
-  "Remote, Onsite, Hybrid — We've Got You",
-  "Job Seekers & Employers — Join Us Today!",
-];
-
-// components/CommunityComponents/PinnedPosts.js 
-export const pinnedPosts = [
-  {
-    id: 1,
-    title: "Community Meetup",
-    details: "Next Saturday at 6 PM",
-    timestamp: "Apr 13, 2025",
-  },
-  {
-    id: 2,
-    title: "AMA with Google Engineers",
-    details: "Monday, 8 PM IST on Zoom",
-    timestamp: "Apr 15, 2025",
-  },
-  {
-    id: 3,
-    title: "Open Source Sprint",
-    details: "Join us this weekend on GitHub",
-    timestamp: "Apr 20, 2025",
-  },
-];
-
-// components/CommunityComponents/PollsQA.js 
-export const pollQuestions = [
-  {
-    id: 1,
-    question: "What's your favorite programming language?",
-    options: [
-      { id: 1, label: "JavaScript" },
-      { id: 2, label: "Python" },
-      { id: 3, label: "Java" },
-      { id: 4, label: "C++" },
-    ],
-  },
-  {
-    id: 2,
-    question: "Which frontend framework do you prefer?",
-    options: [
-      { id: 1, label: "React" },
-      { id: 2, label: "Vue" },
-      { id: 3, label: "Angular" },
-      { id: 4, label: "Svelte" },
-    ],
-  },
-];
-
 // src/components/Navbar.js
 export const sampleNotifications = [
   {
@@ -345,3 +291,247 @@ export   const companies = [
     { name: "IBM", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/1200px-IBM_logo.svg.png", description: "Multinational technology company" },
     { name: "Wipro", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Wipro_Primary_Logo_Color_RGB.svg/1200px-Wipro_Primary_Logo_Color_RGB.svg.png", description: "Indian multinational corporation" },
   ];
+
+// components/CommunityComponents/HeaderSection.js 
+export const headlines = [
+  "Find Your Dream Job Here",
+  "Empowering Careers, Connecting Talent",
+  "Remote, Onsite, Hybrid — We've Got You",
+  "Job Seekers & Employers — Join Us Today!",
+  "Your Next Career Move Starts Now",
+  "Tech Talent Meets Opportunity",
+  "Building Careers, One Connection at a Time",
+  "Where Passion Meets Profession"
+];
+
+// components/CommunityComponents/PinnedPosts.js 
+export const pinnedPosts = [
+  {
+    id: 1,
+    title: "Community Meetup",
+    details: "Next Saturday at 6 PM",
+    timestamp: "Apr 13, 2025",
+  },
+  {
+    id: 2,
+    title: "AMA with Google Engineers",
+    details: "Monday, 8 PM IST on Zoom",
+    timestamp: "Apr 15, 2025",
+  },
+  {
+    id: 3,
+    title: "Open Source Sprint",
+    details: "Join us this weekend on GitHub",
+    timestamp: "Apr 20, 2025",
+  },
+  {
+    id: 4,
+    title: "Resume Workshop",
+    details: "Wednesday at 4 PM in Community Hall",
+    timestamp: "Apr 17, 2025",
+  },
+  {
+    id: 5,
+    title: "Mock Interview Day",
+    details: "Practice with senior developers",
+    timestamp: "Apr 22, 2025",
+  },
+  {
+    id: 6,
+    title: "Tech Talk: AI in 2025",
+    details: "Keynote by Dr. Smith from MIT",
+    timestamp: "Apr 25, 2025",
+  }
+];
+
+// components/CommunityComponents/PollsQA.js 
+export const pollQuestions = [
+  {
+    id: 1,
+    question: "What's your favorite programming language?",
+    options: [
+      { id: 1, label: "JavaScript" },
+      { id: 2, label: "Python" },
+      { id: 3, label: "Java" },
+      { id: 4, label: "C++" },
+    ],
+  },
+  {
+    id: 2,
+    question: "Which frontend framework do you prefer?",
+    options: [
+      { id: 1, label: "React" },
+      { id: 2, label: "Vue" },
+      { id: 3, label: "Angular" },
+      { id: 4, label: "Svelte" },
+    ],
+  },
+  {
+    id: 3,
+    question: "What's your preferred work environment?",
+    options: [
+      { id: 1, label: "Fully Remote" },
+      { id: 2, label: "Hybrid" },
+      { id: 3, label: "Office Only" },
+      { id: 4, label: "No Preference" },
+    ],
+  },
+  {
+    id: 4,
+    question: "Which cloud platform do you use most?",
+    options: [
+      { id: 1, label: "AWS" },
+      { id: 2, label: "Azure" },
+      { id: 3, label: "Google Cloud" },
+      { id: 4, label: "Other" },
+    ],
+  }
+];
+
+// src/pages/Community.js
+export const jobListings = [
+  {
+    id: 1,
+    title: "Frontend Developer",
+    company: "TechVerse",
+    location: "Remote",
+    type: "Full-time",
+    salary: "6–10 LPA",
+    experience: "1–3 yrs"
+  },
+  {
+    id: 2,
+    title: "Data Scientist",
+    company: "Microsoft",
+    location: "Bangalore",
+    type: "Full-time",
+    salary: "12–18 LPA",
+    experience: "2–4 yrs"
+  },
+  {
+    id: 3,
+    title: "Backend Engineer",
+    company: "Google",
+    location: "Remote",
+    type: "Full-time",
+    salary: "10–16 LPA",
+    experience: "3–5 yrs"
+  },
+  {
+    id: 4,
+    title: "UI/UX Designer",
+    company: "Figma",
+    location: "San Francisco",
+    type: "Contract",
+    salary: "8–12 LPA",
+    experience: "2–3 yrs"
+  },
+  {
+    id: 5,
+    title: "DevOps Engineer",
+    company: "Amazon",
+    location: "Hyderabad",
+    type: "Full-time",
+    salary: "9–15 LPA",
+    experience: "2–5 yrs"
+  },
+  {
+    id: 6,
+    title: "Mobile Developer (Flutter)",
+    company: "Flipkart",
+    location: "Bangalore",
+    type: "Full-time",
+    salary: "8–14 LPA",
+    experience: "1–4 yrs"
+  },
+  {
+    id: 7,
+    title: "AI Research Intern",
+    company: "OpenAI",
+    location: "Remote",
+    type: "Internship",
+    salary: "4–6 LPA",
+    experience: "0–1 yrs"
+  },
+  {
+    id: 8,
+    title: "Product Manager",
+    company: "Zoho",
+    location: "Chennai",
+    type: "Full-time",
+    salary: "12–20 LPA",
+    experience: "3–6 yrs"
+  }
+];
+
+export const resources = [
+  {
+    id: 1,
+    title: "React Official Docs",
+    link: "https://reactjs.org",
+    description: "Comprehensive guide to learn React.js fundamentals and advanced patterns.",
+    tag: "Docs",
+    topics: ["react", "hooks", "components"]
+  },
+  {
+    id: 2,
+    title: "JavaScript Roadmap 2025",
+    link: "https://roadmap.sh/javascript",
+    description: "A structured path to master modern JavaScript.",
+    tag: "Roadmap",
+    topics: ["javascript", "frontend"]
+  },
+  {
+    id: 3,
+    title: "Intro to DSA - Video Course",
+    link: "https://youtube.com/...",
+    tag: "Video",
+    topics: ["dsa", "beginner", "interview prep"]
+  },
+  {
+    id: 4,
+    title: "System Design Primer",
+    link: "https://github.com/donnemartin/system-design-primer",
+    description: "Learn how to design large-scale systems.",
+    tag: "GitHub",
+    topics: ["system design", "backend"]
+  },
+  {
+    id: 5,
+    title: "CSS Tricks Complete Guide",
+    link: "https://css-tricks.com",
+    description: "Everything about modern CSS techniques.",
+    tag: "Tutorial",
+    topics: ["css", "styling"]
+  },
+  {
+    id: 6,
+    title: "The Art of Command Line",
+    link: "https://github.com/jlevy/the-art-of-command-line",
+    description: "Master the command line in one page.",
+    tag: "Cheatsheet",
+    topics: ["terminal", "linux"]
+  }
+];
+
+export const trendingTopics = [
+  { id: 1, title: "#RemoteWork", posts: 120 },
+  { id: 2, title: "#CareerGrowth", posts: 98 },
+  { id: 3, title: "#TechTrends", posts: 85 },
+  { id: 4, title: "#LearnPython", posts: 72 },
+  { id: 5, title: "#JobSearchTips", posts: 65 },
+  { id: 6, title: "#DevCommunity", posts: 58 },
+  { id: 7, title: "#OpenSource", posts: 52 },
+  { id: 8, title: "#WorkLifeBalance", posts: 47 }
+];
+
+export const leaderboard = [
+  { id: 1, name: "Raj Malhotra", points: 1500 },
+  { id: 2, name: "Neha Verma", points: 1350 },
+  { id: 3, name: "Vikram Singh", points: 1200 },
+  { id: 4, name: "Priya Patel", points: 1150 },
+  { id: 5, name: "Amit Sharma", points: 1050 },
+  { id: 6, name: "Sneha Gupta", points: 980 },
+  { id: 7, name: "Rahul Joshi", points: 920 },
+  { id: 8, name: "Ananya Iyer", points: 870 }
+];

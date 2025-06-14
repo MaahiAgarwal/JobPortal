@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../components/Card';
+import Card from '../components/Layout/Card';
 import { getJobs } from '../ConfigAPI.js';
 import { useSearchParams } from 'react-router-dom';
 import { Search, Briefcase, MapPin, DollarSign, Filter, SlidersHorizontal } from 'lucide-react';

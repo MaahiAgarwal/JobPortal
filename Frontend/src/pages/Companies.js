@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CompanyCard from '../components/CompanyCard';
+import CompanyCard from '../components/Layout/CompanyCard';
 import { Building2, Search } from 'lucide-react';
 
 const Companies = ({ isDarkMode }) => {

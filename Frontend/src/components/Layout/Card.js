@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { MapPin, Building2, DollarSign, Clock, Briefcase, ChevronRight, AlertCircle } from 'lucide-react';
-import { saveJobToUser } from '../ConfigAPI';
+import { saveJobToUser } from '../../ConfigAPI';
 
 const Card = ({ id, title, description, company, location, salary, jobType = "Full-time", postedDate = "2 days ago", isDarkMode, user }) => {
     const navigate = useNavigate();
