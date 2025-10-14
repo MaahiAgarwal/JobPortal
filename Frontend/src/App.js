@@ -99,7 +99,7 @@ function App() {
                             <Routes>
                                 <Route path="/" element={<Home isDarkMode={isDarkMode} user={user} />} />
                                 <Route path="/companies" element={<Companies isDarkMode={isDarkMode} />} />
-                                <Route path="/community-page" element={<CommunityPage isDarkMode={isDarkMode} user={user} />} />
+                                <Route path="/community-page" element={<CommunityPage isDarkMode={isDarkMode} user={user} userType={userType} />} />
                                 <Route path="/job-posting-page" element={<JobPostingPage isDarkMode={isDarkMode} />} />
                                 <Route path="/all-jobs" element={<AllJobs isDarkMode={isDarkMode} user={user} />} />
                                 <Route path="/signin" element={<SignIn isDarkMode={isDarkMode} onLogin={handleLogin} />} />

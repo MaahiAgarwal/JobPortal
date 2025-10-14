@@ -206,4 +206,50 @@ const getEmployer = async () => {
     }
 }
 
-export {signup, login, logout, getJobs, postJob, searchJob, saveJobToUser, getUser, getEmployer};
+const getPosts = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/community-posts/`)
+        console.log("Response", response);
+        return response.data.data; // Return the posts data
+    } catch (error) {
+        console.log("Error in getPosts", error);
+        
+    }
+}
+
+const savePost = async (formData) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/community-posts/`,
+            formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Ensure the correct content type for FormData
+                },
+                withCredentials: true, 
+            }// Ensure cookies are sent with the request}
+        )
+        console.log("Response", response);
+        return response.data; // Return the saved post data
+
+    } catch (error) {
+        console.log("Error in savePost", error);  
+        return null; // Return null if there's an error     
+    }
+}
+
+const incrementLikes = async (postId, userId, userType) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/community-posts/${postId}/likes`, {
+            userId: userId,
+            userType: userType === "user" ? "JobSeeker" : "Employer"
+        }, {
+            withCredentials: true // Ensure cookies are sent with the request
+        });
+        console.log("Response", response);
+        return response.data; // Return the updated post data
+    } catch (error) {
+        console.log("Error in incrementLikes", error);
+        return null; // Return null if there's an error
+    }
+}
+
+export {signup, login, logout, getJobs, postJob, searchJob, saveJobToUser, getUser, getEmployer, getPosts, savePost, incrementLikes};
