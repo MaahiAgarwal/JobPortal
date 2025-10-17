@@ -68,6 +68,7 @@ A modern job portal where **users** can apply for jobs and track applications, a
 
 - **Sayan Sen** – [GitHub](https://github.com/Sayan0361)
 - **Subhradeep Basu** – [GitHub](https://github.com/SubhradeepBasu18)
+- **Maahi Agarwal** - [GitHub](https://github.com/MaahiAgarwal)
 
 ---
 
